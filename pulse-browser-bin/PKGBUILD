@@ -1,7 +1,6 @@
 _pkgname=pulse-browser
 pkgname=${_pkgname}-bin
-pkgver=1.0.0.alpha84
-_pkgver=${pkgver/.alpha/-a.}
+pkgver=1.0.0-a.127
 pkgrel=1
 pkgdesc="An experimental Firefox fork that enhances focus and increases work productivity due to its Hyper minimalistic UI and built-in tools - Static binaries from upstream"
 arch=('x86_64')
@@ -14,10 +13,10 @@ optdepends=('ffmpeg: H264/AAC/MP3 decoding'
             'pulseaudio: Audio support'
             'speech-dispatcher: Text-to-Speech'
             'hunspell-en_US: Spell checking, American English')
-source=("pulse-browser.linux-${pkgver}.tar.bz2::https://github.com/null2264/pulse/releases/download/1.0.0-a.127/pulse-browser.linux.tar.bz2"
+source=("https://github.com/null2264/pulse/releases/download/${pkgver}/pulse-browser.linux.tar.bz2"
         $_pkgname.sh
         $_pkgname.desktop)
-sha256sums=('350fbcc65f1c59e304cc7330772000287adff3687f0911229c093b465bb97e31'
+sha256sums=('e1b7f910c8c9282601578025a3e237ddf1b7be1f6c71577db2cd5a4c5e8da08a'
             'c54e6e7f5554150dc1f7f000da3858ba45d68c0863ba15ca87f5f5c6d0fbf3ec'
             'f08bfb6733f936360b8808ae43dc5cdcf6afc9783c8e0321098c0b5caa16ffff')
 
