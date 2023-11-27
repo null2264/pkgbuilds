@@ -1,6 +1,6 @@
 _pkgname=pulse-browser
 pkgname=${_pkgname}-bin
-pkgver=1.0.0.alpha127
+pkgver=1.0.0.alpha130
 _pkgver=${pkgver/.alpha/-a.}
 pkgrel=1
 pkgdesc="An experimental Firefox fork that enhances focus and increases work productivity due to its Hyper minimalistic UI and built-in tools - Static binaries from upstream"
