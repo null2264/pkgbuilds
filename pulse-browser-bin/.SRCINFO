@@ -1,6 +1,6 @@
 pkgbase = pulse-browser-bin
 	pkgdesc = An experimental Firefox fork that enhances focus and increases work productivity due to its Hyper minimalistic UI and built-in tools - Static binaries from upstream
-	pkgver = 1.0.0.alpha133
+	pkgver = 1.0.0.alpha136
 	pkgrel = 1
 	url = https://github.com/null2264/pulse
 	arch = x86_64
@@ -19,10 +19,10 @@ pkgbase = pulse-browser-bin
 	optdepends = pulseaudio: Audio support
 	optdepends = speech-dispatcher: Text-to-Speech
 	optdepends = hunspell-en_US: Spell checking, American English
-	source = https://github.com/null2264/pulse/releases/download/1.0.0-a.133/pulse-browser.linux.tar.bz2
+	source = https://github.com/null2264/pulse/releases/download/1.0.0-a.136/pulse-browser.linux.tar.bz2
 	source = pulse-browser.sh
 	source = pulse-browser.desktop
-	sha256sums = 9364fe21ed1eebbb4cf09109d293bf8e4d06b40373f484adfc8c526d07214486
+	sha256sums = de6f4f25879186b1d2a88e2fb38b209b239ffb9167e9e56c5a60797e6b12b62e
 	sha256sums = c54e6e7f5554150dc1f7f000da3858ba45d68c0863ba15ca87f5f5c6d0fbf3ec
 	sha256sums = f08bfb6733f936360b8808ae43dc5cdcf6afc9783c8e0321098c0b5caa16ffff
 
