@@ -14,7 +14,7 @@ optdepends=("ffmpeg: H264/AAC/MP3 decoding"
             "pulseaudio: Audio support"
             "speech-dispatcher: Text-to-Speech"
             "hunspell-en_US: Spell checking, American English")
-source=("https://github.com/null2264/pulse/releases/download/${_pkgver}/pulse-browser.linux.tar.bz2"
+source=("pulse-browser.linux-${pkgver}.tar.bz2::https://github.com/null2264/pulse/releases/download/${_pkgver}/pulse-browser.linux.tar.bz2"
         $_pkgname.sh
         $_pkgname.desktop)
 sha256sums=("de6f4f25879186b1d2a88e2fb38b209b239ffb9167e9e56c5a60797e6b12b62e"
