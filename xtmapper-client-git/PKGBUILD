@@ -1,0 +1,36 @@
+_pkgname=xtmapper-client
+pkgname=$_pkgname-git
+pkgver=latest.r0.g7cd21ff
+pkgrel=1
+pkgdesc="Input event for XtMapper, a keymapper for Waydroid"
+depends=(wayland-protocols libxkbcommon)
+makedepends=(git make)
+optdepends=()
+arch=(x86_64)
+url="https://github.com/null2264/wayland-getevent"
+license=()
+provides=(cage-xtmapper)
+conflicts=()
+source=("${pkgname}::git+https://github.com/null2264/wayland-getevent.git")
+sha512sums=('SKIP')
+
+pkgver() {
+    cd "$srcdir/$pkgname"
+    if git describe --long --tags >/dev/null 2>&1; then
+        git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+    else
+        printf 'r%s.%s' "$(git rev-list --count HEAD)" "$(git describe --always)"
+    fi
+}
+
+build() {
+    cd "$srcdir/$pkgname"
+    make
+}
+
+package() {
+    cd "$srcdir/$pkgname"
+
+    install -vDm 755 client "$pkgdir/usr/bin/$_pkgname"
+}
+# vi: et ts=4 sw=4

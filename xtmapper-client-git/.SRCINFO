@@ -1,0 +1,15 @@
+pkgbase = xtmapper-client-git
+	pkgdesc = Input event for XtMapper, a keymapper for Waydroid
+	pkgver = latest.r0.g7cd21ff
+	pkgrel = 1
+	url = https://github.com/null2264/wayland-getevent
+	arch = x86_64
+	makedepends = git
+	makedepends = make
+	depends = wayland-protocols
+	depends = libxkbcommon
+	provides = cage-xtmapper
+	source = xtmapper-client-git::git+https://github.com/null2264/wayland-getevent.git
+	sha512sums = SKIP
+
+pkgname = xtmapper-client-git
