@@ -1,0 +1,63 @@
+pkgname=cage-xtmapper-git
+pkgver=r338.0a2a698
+pkgrel=1
+pkgdesc="Fork of Cage made for XtMapper. Kiosk compositor for Wayland"
+depends=(glibc wayland libxkbcommon)
+makedepends=(git meson scdoc wayland-protocols xorg-server-xwayland)
+optdepends=(
+    'polkit: System privilege control. Required if not using seatd service'
+    'xorg-server-xwayland: X11 support'
+)
+arch=(x86_64)
+url="https://www.hjdskes.nl/projects/cage/"
+license=(MIT)
+provides=(cage-xtmapper)
+conflicts=()
+source=("${pkgname}::git+https://github.com/null2264/cage-xtmapper.git")
+sha512sums=('SKIP')
+
+pkgver() {
+    cd "$srcdir/$pkgname"
+    if git describe --long --tags >/dev/null 2>&1; then
+        git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+    else
+        printf 'r%s.%s' "$(git rev-list --count HEAD)" "$(git describe --always)"
+    fi
+}
+
+prepare() {
+    cd "$srcdir/$pkgname"
+    git submodule update --init --recursive --jobs=$(nproc)
+}
+
+build() {
+    cd "$srcdir/$pkgname"
+    patch -d subprojects/wlroots/ -p1 -i ../../0001-wlroots-confine-pointer.patch
+    patch -d subprojects/wlroots/ -p1 -i ../../0002-wayland-decoration-envvar.patch
+    patch -d subprojects/wlroots/ -p1 -i ../../0003-wlroots-wayland-backend-custom-size.patch
+    meson setup --buildtype=release --prefix /usr "$srcdir/build"
+    ninja -C "$srcdir/build"
+}
+
+check() {
+    ninja -C "$srcdir/build" test
+}
+
+package() {
+    cd "$srcdir/$pkgname"
+
+    meson install -C "$srcdir/build" \
+        --destdir "$pkgdir"
+
+    mkdir -p "$pkgdir/usr/include/xtmapper/wlroots"
+    mv "$pkgdir/usr/bin/cage" "$pkgdir/usr/bin/cage-xtmapper"
+    mv "$pkgdir/usr/include/wlr" "$pkgdir/usr/include/xtmapper/wlroots"
+
+    # resolve conflicts with system wlr
+    rm -f $pkgdir/usr/lib/libwlroots.so*
+    rm -rf $pkgdir/usr/lib/pkgconfig
+
+    install -vDm 644 README.md -t "$pkgdir/usr/share/doc/$pkgname"
+    install -vDm 644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+}
+# vi: et ts=4 sw=4

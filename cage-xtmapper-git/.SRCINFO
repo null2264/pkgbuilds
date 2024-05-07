@@ -1,0 +1,22 @@
+pkgbase = cage-xtmapper-git
+	pkgdesc = Fork of Cage made for XtMapper. Kiosk compositor for Wayland
+	pkgver = r338.0a2a698
+	pkgrel = 1
+	url = https://www.hjdskes.nl/projects/cage/
+	arch = x86_64
+	license = MIT
+	makedepends = git
+	makedepends = meson
+	makedepends = scdoc
+	makedepends = wayland-protocols
+	makedepends = xorg-server-xwayland
+	depends = glibc
+	depends = wayland
+	depends = libxkbcommon
+	optdepends = polkit: System privilege control. Required if not using seatd service
+	optdepends = xorg-server-xwayland: X11 support
+	provides = cage-xtmapper
+	source = cage-xtmapper-git::git+https://github.com/null2264/cage-xtmapper.git
+	sha512sums = SKIP
+
+pkgname = cage-xtmapper-git
