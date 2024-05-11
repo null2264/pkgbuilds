@@ -1,0 +1,88 @@
+# Original PKGBUILD made by Kodehawa (discord-canary-electron-bin) and johnnyapol (discord_arch_electron)
+# REF: https://aur.archlinux.org/packages/discord-canary-electron-bin
+# REF: https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=discord-canary-electron-bin
+
+pkgname=discord-canary-electron-openasar-bin
+_pkgname=discord-canary
+pkgver=0.0.390
+pkgrel=1
+pkgdesc="Discord Canary (popular voice + video app) using the system provided electron for increased security and performance"
+arch=('x86_64')
+provides=('discord-canary')
+conflicts=('discord-canary')
+url='https://canary.discordapp.com'
+license=('custom')
+options=(!strip)
+depends=('electron29' 'gtk3' 'libnotify' 'libxss' 'glibc' 'alsa-lib' 'nspr' 'nss' 'xdg-utils' 'libcups' 'unzip')
+makedepends=('asar')
+optdepends=('libpulse: Pulseaudio support'
+            'xdg-utils: Open files'
+            'noto-fonts-emoji: Google font for emoji support.'
+            'ttf-symbola: Font for emoji support.'
+            'noto-fonts-cjk: Font for special characters such as /shrug face.')
+source=("https://dl-canary.discordapp.net/apps/linux/${pkgver}/${_pkgname}-${pkgver}.tar.gz"
+        'LICENSE.html::https://discordapp.com/terms'
+        'OSS-LICENSES.html::https://discordapp.com/licenses'
+        'installed.json'
+        'https://github.com/GooseMod/OpenAsar/releases/download/nightly/app.asar'
+        )
+# Skip SHA256 of licenses, it fails always for some reason.
+sha256sums=('2930eceae00f756f795b84f49ec781a73909deeff68f3b2fbbd29c348467053c'
+            'SKIP'
+            'SKIP'
+            'b3c9a2da8770cb8f5d140bf3076b006108c5ead93a62174c1c2011b5f9df0826'
+            'SKIP' # Nightly, so it'll change pretty frequently
+            )
+
+# The tar extracts to a folder called DiscordCanary.
+_tarname=DiscordCanary
+
+_asar=OpenAsar
+
+#installed.json needs to be copied to this folder or the updater breaks
+_discordmodules='${DISCORD_USER_DATA_DIR:-${XDG_CONFIG_HOME:-$HOME/.config}}'/discordcanary/$pkgver/modules/
+
+prepare() {
+  # Extract the downloaded tar.
+  tar xf ${_pkgname}-${pkgver}.tar.gz
+  cd $_tarname
+
+  sed -i "s|Exec=.*|Exec=/usr/bin/$_pkgname|" $_pkgname.desktop
+  echo 'Path=/usr/bin' >> $_pkgname.desktop
+}
+
+package() {
+  # Install the app
+  install -d "$pkgdir"/usr/lib/$_pkgname
+  
+  # HACKS FOR SYSTEM ELECTRON
+  # Thanks to the discord_arch_electron guy for this ;)
+  # Thanks to https://aur.archlinux.org/packages/discord_arch_electron/#comment-776307 for the less-hacky fix.
+  # >> Modified to support OpenAsar
+  asar e app.asar $_asar/
+  sed -i "s|process.resourcesPath|'/usr/lib/$_pkgname'|" $_asar/utils/buildInfo.js
+  sed -i "s|exeDir;|'/usr/share/pixmaps';|" $_asar/paths.js
+  asar p $_asar/ $_tarname/resources/app.asar --unpack-dir '**'
+  rm -rf $_tarname/resources/app 
+  
+  # Copy relevant data
+  cp -r "$_tarname"/resources/*  "$pkgdir"/usr/lib/$_pkgname/
+
+  #Install the file needed to bootstrap the updater
+  install -Dm 644 installed.json "$pkgdir"/usr/lib/$_pkgname/
+  
+  # Create starter script for discord
+  echo "#!/bin/sh" > "$srcdir"/$_pkgname
+  echo "if ! [ -f $_discordmodules/installed.json ]; then mkdir -p $_discordmodules && cp /usr/lib/$_pkgname/installed.json $_discordmodules; fi" >> "$srcdir/$_pkgname"
+  echo "exec electron29 /usr/lib/$_pkgname/app.asar \$@" >> "$srcdir"/$_pkgname
+  
+  install -d "$pkgdir"/usr/{bin,share/{pixmaps,applications}}
+  install -Dm 755 $_pkgname "$pkgdir"/usr/bin/$_pkgname
+
+  cp $_tarname/discord.png "$pkgdir"/usr/share/pixmaps/$_pkgname.png
+  cp $_tarname/$_pkgname.desktop "$pkgdir"/usr/share/applications/$_pkgname.desktop
+  
+  # Licenses
+  install -Dm 644 LICENSE.html "$pkgdir"/usr/share/licenses/$pkgname/LICENSE.html
+  install -Dm 644 OSS-LICENSES.html "$pkgdir"/usr/share/licenses/$pkgname/OSS-LICENSES.html
+}
