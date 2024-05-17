@@ -4,7 +4,7 @@
 
 pkgname=discord-canary-electron-openasar-bin
 _pkgname=discord-canary
-pkgver=0.0.390
+pkgver=0.0.396
 pkgrel=1
 pkgdesc="Discord Canary (popular voice + video app) using the system provided electron for increased security and performance"
 arch=('x86_64')
@@ -27,7 +27,7 @@ source=("https://dl-canary.discordapp.net/apps/linux/${pkgver}/${_pkgname}-${pkg
         'https://github.com/GooseMod/OpenAsar/releases/download/nightly/app.asar'
         )
 # Skip SHA256 of licenses, it fails always for some reason.
-sha256sums=('2930eceae00f756f795b84f49ec781a73909deeff68f3b2fbbd29c348467053c'
+sha256sums=('d126629127c1fa347860d2778bc208911c7e98cfa208263ddf8ebb411b779e13'
             'SKIP'
             'SKIP'
             'b3c9a2da8770cb8f5d140bf3076b006108c5ead93a62174c1c2011b5f9df0826'
