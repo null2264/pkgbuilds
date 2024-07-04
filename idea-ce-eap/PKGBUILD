@@ -1,0 +1,37 @@
+# Original PKGBUILD: https://aur.archlinux.org/packages/intellij-idea-ce-eap (Leonidas Spyropoulos <artafinde at gmail dot com>)
+
+pkgname=idea-ce-eap
+_pkgname=idea-IC
+_buildver=242.19890.14
+_veryear=2024
+_verrelease=2
+_verextra=1
+pkgver=${_veryear}.${_verrelease}.${_buildver}
+pkgrel=1
+pkgdesc="Early access version of the upcoming version of Intellij Idea IDE (community version)"
+arch=('any')
+options=(!strip)
+url="http://www.jetbrains.com/idea/nextversion"
+license=('Apache2')
+depends=('java-environment' 'giflib' 'libxtst' 'libdbusmenu-glib')
+_archive="ideaIC-${_buildver}.tar.gz"
+source=("https://download.jetbrains.com/idea/${_archive}"
+        "idea-ce-eap.desktop")
+sha256sums=($(curl -s "https://download.jetbrains.com/idea/${_archive}.sha256" | cut -f1 -d" ")
+            'c46594096daaed484e82022c7835254dfd3ecc693ae3685970c896345cd621f6')
+package() {
+    install -dm755 "${pkgdir}/opt/${pkgname}"
+    cp -r --no-preserve='ownership' "${srcdir}/${_pkgname}-${_buildver}/"* "${pkgdir}/opt/${pkgname}"
+
+    install -dm755 "${pkgdir}/usr/share/licenses/${pkgname}"
+    find "${srcdir}/${_pkgname}-${_buildver}/license/" -type f -exec \
+        install -Dm644 '{}' "${pkgdir}/usr/share/licenses/${pkgname}/" \;
+
+    install -Dm644 "${srcdir}/${pkgname}.desktop" "${pkgdir}/usr/share/applications/${pkgname}.desktop"
+    sed -i "s/_pkgver/${pkgver}/" "${pkgdir}/usr/share/applications/${pkgname}.desktop"
+
+    install -dm755 -p "${pkgdir}/usr/bin/"
+    ln -s "/opt/${pkgname}/bin/idea.sh" "${pkgdir}/usr/bin/idea-ce-eap"
+}
+
+# vim:set ts=4 sw=4 et:
