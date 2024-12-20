@@ -1,0 +1,26 @@
+pkgbase='python-cst-lsp'
+pkgname=('python-cst-lsp')
+_module='cst-lsp'
+pkgver=0.1.3
+_src_folder=${_module}-v.${pkgver}
+pkgrel=1
+pkgdesc=" LSP Server powered by libcst for refactoring tasks."
+url="https://github.com/rowillia/cst-lsp"
+depends=('python-libcst' 'python-pygls')
+makedepends=('python-build' 'python-installer' 'python-wheel')
+license=('MIT')
+arch=('any')
+source=("${pkgname}-${pkgver}.tar.gz::https://github.com/rowillia/cst-lsp/archive/refs/tags/v.${pkgver}.tar.gz")
+sha256sums=('b861bef878498438de98c0ee1f1cc7b1663f4628e82f381d8b67203c49688d04')
+
+build() {
+  cd "${srcdir}/${_src_folder}"
+  python -m build --wheel --no-isolation
+}
+
+package() {
+  depends+=()
+  cd "${srcdir}/${_src_folder}"
+  python -m installer --destdir="${pkgdir}" dist/*.whl
+  find $pkgdir -type d -name "tests" -exec rm -rf {} + #this was leaving a new drectory under site_packages called 'tests'
+}
