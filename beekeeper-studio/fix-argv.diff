@@ -1,0 +1,34 @@
+diff --git a/apps/studio/src/common/platform_info/mainPlatformInfo.ts b/apps/studio/src/common/platform_info/mainPlatformInfo.ts
+index 44942e8b..69eb1341 100644
+--- a/apps/studio/src/common/platform_info/mainPlatformInfo.ts
++++ b/apps/studio/src/common/platform_info/mainPlatformInfo.ts
+@@ -52,7 +52,7 @@ export function mainPlatformInfo(): IPlatformInfo {
+   // as instant client not available there
+   const oracleSupported = true
+ 
+-  const resourcesPath = isDevEnv ? resolve('./extra_resources') : resolve(p.resourcesPath)
++  const resourcesPath = testMode ? resolve(p.resourcesPath) : (isDevEnv ? resolve('./extra_resources') : join('/usr/lib', e.app.getName()))
+   let userDirectory = testMode ? './tmp' : e.app.getPath("userData")
+   const downloadsDirectory = testMode ? './tmp' : e.app.getPath('downloads')
+   const homeDirectory = testMode ? './tmp' : e.app.getPath('home')
+@@ -62,7 +62,19 @@ export function mainPlatformInfo(): IPlatformInfo {
+ 
+   const sessionType = p.env.XDG_SESSION_TYPE
+ 
+-  const slice = isDevEnv ? 2 : 1
++  let slice = 0
++
++  if (isDevEnv) {
++    slice = 2
++  } else {
++    for (const arg of p.argv) {
++      slice++
++      if (arg.includes('app.asar') === true) {
++        break
++      }
++    }
++  }
++
+   const parsedArgs = yargs(p.argv.slice(slice))
+   const appVersion = testMode ? '0.0.0' : e.app.getVersion()
+ 

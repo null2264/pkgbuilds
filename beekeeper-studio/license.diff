@@ -1,0 +1,31 @@
+diff --git a/apps/studio/src/handlers/licenseHandlers.ts b/apps/studio/src/handlers/licenseHandlers.ts
+index d937909f1..ba20822d0 100644
+--- a/apps/studio/src/handlers/licenseHandlers.ts
++++ b/apps/studio/src/handlers/licenseHandlers.ts
+@@ -1,5 +1,6 @@
+ import { LicenseKey } from "@/common/appdb/models/LicenseKey";
+ import { TransportLicenseKey } from "@/common/transport";
++import { parseVersion } from "@/common/version";
+ import { LicenseStatus } from "@/lib/license";
+ 
+ export interface ILicenseHandlers {
+@@ -24,12 +25,12 @@ export const LicenseHandlers: ILicenseHandlers = {
+     const status = await LicenseKey.getLicenseStatus();
+     return {
+       ...status,
+-      isUltimate: status.isUltimate,
+-      isCommunity: status.isCommunity,
+-      isTrial: status.isTrial,
+-      isValidDateExpired: status.isValidDateExpired,
+-      isSupportDateExpired: status.isSupportDateExpired,
+-      maxAllowedVersion: status.maxAllowedVersion,
++      isUltimate: true,
++      isCommunity: false,
++      isTrial: false,
++      isValidDateExpired: false,
++      isSupportDateExpired: false,
++      maxAllowedVersion: parseVersion("199.99.99"),
+     };
+   },
+   "license/get": async function () {
+

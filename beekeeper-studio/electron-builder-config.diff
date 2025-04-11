@@ -1,0 +1,89 @@
+diff --git a/apps/studio/electron-builder-config.js b/apps/studio/electron-builder-config.js
+index 049e03aa..3a6a65d5 100644
+--- a/apps/studio/electron-builder-config.js
++++ b/apps/studio/electron-builder-config.js
+@@ -33,6 +33,8 @@ module.exports = {
+   asarUnpack: [
+     'package.json'
+   ],
++  electronDist: "%%ELECTRON_DIST%%",
++  electronVersion: "%%ELECTRON_VERSION%%",
+   extraResources: [
+     {
+       from: './extra_resources/demo.db',
+@@ -120,24 +122,11 @@ module.exports = {
+       role: "Editor"
+     }
+   ],
+-  mac: {
+-    entitlements: "./build/entitlements.mac.plist",
+-    entitlementsInherit: "./build/entitlements.mac.plist",
+-    icon: './public/icons/mac/bk-icon.icns',
+-    category: "public.app-category.developer-tools",
+-    "hardenedRuntime": true,
+-    notarize: true,
+-    publish: ['github']
+-  },
+   linux: {
+     icon: './public/icons/png/',
+     category: "Development",
+     target: [
+-      'snap',
+-      'deb',
+-      'appImage',
+-      'rpm',
+-      'flatpak',
++      'dir',
+       'pacman'
+     ],
+     desktop: {
+@@ -145,45 +134,9 @@ module.exports = {
+     },
+     publish: ['github']
+   },
+-  deb: {
+-    publish: [
+-      'github'
+-    ],
+-    fpm: fpmOptions,
+-    // when we upgrade Electron we need to check these
+-    depends: ["libgtk-3-0", "libnotify4", "libnss3", "libxss1", "libxtst6", "xdg-utils", "libatspi2.0-0", "libuuid1", "libsecret-1-0", "gnupg"]
+-  },
+-  rpm: {
+-    publish: [ 'github' ],
+-    fpm: rpmFpmOptions,
+-  },
+-  snap: {
+-    base: 'core22',
+-    publish: [
+-      'github',
+-      'snapStore'
+-    ],
+-    environment: {
+-      "ELECTRON_SNAP": "true"
+-    },
+-    plugs: ["default", "ssh-keys", "removable-media", "mount-observe"]
+-  },
+-  win: {
+-    icon: './public/icons/png/512x512.png',
+-    // FIXME: Add AppX/MSIX build back in once certificate issues resolved
+-    target: ['nsis', 'portable'],
+-    publish: ['github'],
+-    sign: "./build/win/sign.js",
+-  },
+-  portable: {
+-    "artifactName": "${productName}-${version}-portable.exe",
+-  },
+-  nsis: {
+-    oneClick: false
+-  },
+-  appx: {
+-    applicationId: "beekeeperstudio",
+-    publisher: certSubject.replaceAll('"', "&quot;"),
+-    publisherDisplayName: "Beekeeper Studio"
++  pacman: {
++    fpm: [
++      '--pacman-compression=none'
++    ]
+   }
+ }
