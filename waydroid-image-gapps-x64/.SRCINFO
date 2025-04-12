@@ -1,7 +1,7 @@
 pkgbase = waydroid-image-gapps-x64
 	pkgdesc = A container-based approach to boot a full Android system on a regular Linux system (Android image, GAPPS).
-	pkgver = 18.1_20250315
-	pkgrel = 2
+	pkgver = 18.1_20250405
+	pkgrel = 1
 	url = https://github.com/waydroid
 	arch = x86_64
 	license = Apache
@@ -9,9 +9,9 @@ pkgbase = waydroid-image-gapps-x64
 	provides = waydroid-image
 	conflicts = waydroid-image
 	conflicts = waydroid-image-gapps
-	source = https://sourceforge.net/projects/waydroid/files/images/system/lineage/waydroid_x86_64/lineage-18.1-20250315-GAPPS-waydroid_x86_64-system.zip
-	source = https://sourceforge.net/projects/waydroid/files/images/vendor/waydroid_x86_64/lineage-18.1-20250315-MAINLINE-waydroid_x86_64-vendor.zip
-	sha256sums = 46f7c20ee4b32116926eb7be4e043ea4561c7471171cafa575414c0aba5f0142
-	sha256sums = 7cb396f6fd5a453af8f48fae668372b22be307dbc45ac138ff1f1060c60805ed
+	source = https://sourceforge.net/projects/waydroid/files/images/system/lineage/waydroid_x86_64/lineage-18.1-20250405-GAPPS-waydroid_x86_64-system.zip
+	source = https://sourceforge.net/projects/waydroid/files/images/vendor/waydroid_x86_64/lineage-18.1-20250405-MAINLINE-waydroid_x86_64-vendor.zip
+	sha256sums = 8ca376d5cef25ce879c3918f0ef3aa7af750771f454a5b5234bbce2c8b394a86
+	sha256sums = 0b4259f5c4d59371dd2534eab81d5aa63e7c96fe293da43f85eb2f0fe743b2b7
 
 pkgname = waydroid-image-gapps-x64
