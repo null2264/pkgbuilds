@@ -1,0 +1,17 @@
+pkgbase = waydroid-image-gapps-yogsottot
+	pkgdesc = A container-based approach to boot a full Android system on a regular Linux system (Android image, GAPPS, Compressed with squashfs, and Patched with several fixes).
+	pkgver = 18.1_2025.01.28
+	pkgrel = 1
+	url = https://github.com/YogSottot/waydroid_stuff
+	arch = x86_64
+	license = Apache
+	optdepends = waydroid
+	provides = waydroid-image
+	conflicts = waydroid-image
+	conflicts = waydroid-image-gapps
+	source = https://github.com/YogSottot/waydroid_stuff/releases/download/lineage_18.1_2025.01.28/system.img
+	source = https://github.com/YogSottot/waydroid_stuff/releases/download/lineage_18.1_2025.01.28/vendor.img
+	sha256sums = SKIP
+	sha256sums = SKIP
+
+pkgname = waydroid-image-gapps-yogsottot
