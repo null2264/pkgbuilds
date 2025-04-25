@@ -5,7 +5,7 @@
 pkgname=packwiz-git
 _pkgname="${pkgname%-git}"
 pkgver=r370.241f24b
-pkgrel=1
+pkgrel=2
 pkgdesc="A command line tool for creating minecraft modpacks."
 arch=(x86_64)
 url='https://packwiz.infra.link'
@@ -17,10 +17,12 @@ conflicts=("${_pkgname}")
 source=(
 	'git+https://github.com/packwiz/packwiz.git'
 	'fix-neo-export-gh-329.patch'
+	'provide-cf-key.patch'
 )
 sha512sums=(
 	'SKIP'
 	'b7b4792890ff2364018c3844d207175a4326b113a87b414d357211ede93b219cf2140aff69299767e578baf56b2a3268e3991ce9148a61e9bca851c03ed34e63'
+	'09802d57998279ad763a45f533f36fe66bdb06d2e4597e991b314092cb17acafa875f9ea3bc9b8959bb4a199e55c442f00b3ff5da48651e3a7b84c5d1d12ab31'
 )
 
 pkgver() {
@@ -43,6 +45,7 @@ build() {
   cd "${_pkgname}"
 
   patch --forward -p1 < "$srcdir/fix-neo-export-gh-329.patch"
+  patch --forward -p1 < "$srcdir/provide-cf-key.patch"
 
   export CGO_CPPFLAGS="${CPPFLAGS}"
   export CGO_CFLAGS="${CFLAGS}"
