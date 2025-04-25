@@ -1,7 +1,7 @@
 pkgbase = packwiz-git
 	pkgdesc = A command line tool for creating minecraft modpacks.
 	pkgver = r370.241f24b
-	pkgrel = 1
+	pkgrel = 2
 	url = https://packwiz.infra.link
 	arch = x86_64
 	license = MIT
@@ -12,7 +12,9 @@ pkgbase = packwiz-git
 	conflicts = packwiz
 	source = git+https://github.com/packwiz/packwiz.git
 	source = fix-neo-export-gh-329.patch
+	source = provide-cf-key.patch
 	sha512sums = SKIP
 	sha512sums = b7b4792890ff2364018c3844d207175a4326b113a87b414d357211ede93b219cf2140aff69299767e578baf56b2a3268e3991ce9148a61e9bca851c03ed34e63
+	sha512sums = ecfdd18039104b62fec96fcd6a588296a4dc29e2f62211a2dc554758da0768724b4ad55992bd610304b8aaca5ee59f8f81d0b29897bc8e55630cfb3a1e39b044
 
 pkgname = packwiz-git
