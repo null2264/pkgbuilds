@@ -1,0 +1,80 @@
+# Original: https://aur.archlinux.org/pkgbase/packwiz-git/
+#
+# Modified to fix https://github.com/packwiz/packwiz/issues/295.
+
+pkgname=packwiz-git
+_pkgname="${pkgname%-git}"
+pkgver=r370.241f24b
+pkgrel=1
+pkgdesc="A command line tool for creating minecraft modpacks."
+arch=(x86_64)
+url='https://packwiz.infra.link'
+license=('MIT')
+depends=('glibc')
+makedepends=('git' 'go')
+provides=("${_pkgname}")
+conflicts=("${_pkgname}")
+source=(
+	'git+https://github.com/packwiz/packwiz.git'
+	'fix-neo-export-gh-329.patch'
+)
+sha512sums=(
+	'SKIP'
+	'b7b4792890ff2364018c3844d207175a4326b113a87b414d357211ede93b219cf2140aff69299767e578baf56b2a3268e3991ce9148a61e9bca851c03ed34e63'
+)
+
+pkgver() {
+  cd "${_pkgname}"
+
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+  cd "${_pkgname}"
+
+  mkdir -p "completions"
+
+  export GOPATH="${srcdir}"
+  export GOFLAGS="-modcacherw"
+  go mod download
+}
+
+build() {
+  cd "${_pkgname}"
+
+  patch --forward -p1 < "$srcdir/fix-neo-export-gh-329.patch"
+
+  export CGO_CPPFLAGS="${CPPFLAGS}"
+  export CGO_CFLAGS="${CFLAGS}"
+  export CGO_CXXFLAGS="${CXXFLAGS}"
+  export CGO_LDFLAGS="${LDFLAGS}"
+  export GOPATH="${srcdir}"
+  export GOFLAGS="\
+    -buildmode=pie \
+    -mod=readonly \
+    -modcacherw \
+    -trimpath \
+  "
+  local _ld_flags=" \
+    -compressdwarf=false \
+    -linkmode=external \
+  "
+  go build \
+    -ldflags "${_ldflags}" \
+    -o "${_pkgname}"
+
+  ./packwiz completion bash > completions/packwiz.bash
+  ./packwiz completion zsh > completions/packwiz.zsh
+  ./packwiz completion fish > completions/packwiz.fish
+}
+
+package() {
+  cd "${_pkgname}"
+
+  install -Dm755 packwiz "${pkgdir}/usr/bin/packwiz"
+  install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+
+  install -Dm644 completions/packwiz.bash "${pkgdir}/usr/share/bash-completion/completions/packwiz"
+  install -Dm644 completions/packwiz.zsh "${pkgdir}/usr/share/zsh/site-functions/_packwiz"
+  install -Dm644 completions/packwiz.fish "${pkgdir}/usr/share/fish/vendor_completions.d/packwiz.fish"
+}
