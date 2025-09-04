@@ -2,9 +2,9 @@
 
 pkgname=idea-ce-eap
 _pkgname=idea-IC
-_buildver=251.23774.109
+_buildver=252.25557.77
 _veryear=2025
-_verrelease=1
+_verrelease=2
 _verextra=
 _verextraextra=
 pkgver=${_veryear}.${_verrelease}.${_buildver}
