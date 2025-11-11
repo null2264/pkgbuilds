@@ -2,10 +2,10 @@
 
 pkgname=idea-ce-eap
 _pkgname=idea-IC
-_buildver=252.25557.77
+_buildver=252.27397.103
 _veryear=2025
 _verrelease=2
-_verextra=
+_verextra=4
 _verextraextra=
 pkgver=${_veryear}.${_verrelease}.${_buildver}
 pkgrel=1
@@ -15,9 +15,9 @@ options=(!strip)
 url="http://www.jetbrains.com/idea/nextversion"
 license=('Apache2')
 depends=('java-environment' 'giflib' 'libxtst' 'libdbusmenu-glib')
-#_archive="ideaIC-${_veryear}.${_verrelease}.${_verextra}.tar.gz"
+_archive="ideaIC-${_veryear}.${_verrelease}.${_verextra}.tar.gz"
 #_archive="ideaIC-${_veryear}.${_verrelease}.tar.gz"
-_archive="ideaIC-${_buildver}.tar.gz"
+#_archive="ideaIC-${_buildver}.tar.gz"
 source=("https://download.jetbrains.com/idea/${_archive}"
         "idea-ce-eap.desktop")
 sha256sums=($(curl -s "https://download.jetbrains.com/idea/${_archive}.sha256" | cut -f1 -d" ")
